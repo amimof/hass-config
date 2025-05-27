@@ -1,0 +1,74 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: El
+    content:
+      type: horizontal-stack
+      card_mod:
+        style: |
+          #states {
+            padding-top: 0.5em;
+          }
+      cards:
+      - type: vertical-stack
+        cards:
+        - type: custom:bubble-card
+          card_type: separator
+          name: Energimätning
+          icon: mdi:lightning-bolt
+        - type: custom:apexcharts-card
+          graph_span: 12h
+          header:
+            standard_format: true
+            show: true
+            title: Effekt senaste 12h
+          series:
+            - entity: sensor.p1_meter_power
+              name: Power
+              type: area
+              stroke_width: 1
+        - type: energy-distribution
+          link_dashboard: true
+        - type: horizontal-stack
+          cards:
+          - type: gauge
+            entity: sensor.p1_meter_current_phase_1
+            name: Current Phase 1
+            max: 16
+          - type: gauge
+            entity: sensor.p1_meter_current_phase_2
+            name: Current Phase 2
+            max: 16
+          - type: gauge
+            entity: sensor.p1_meter_current_phase_3
+            name: Current Phase 3
+            max: 16
+        - type: horizontal-stack
+          cards:
+          - type: gauge
+            entity: sensor.p1_meter_power_phase_1
+            name: Power Phase 1
+            max: 3700
+          - type: gauge
+            entity: sensor.p1_meter_power_phase_2
+            name: Power Phase 2
+            max: 3700
+          - type: gauge
+            entity: sensor.p1_meter_power_phase_3
+            name: Power Phase 3
+            max: 3700
+        - type: horizontal-stack
+          cards:
+          - type: gauge
+            entity: sensor.p1_meter_voltage_phase_1
+            name: Voltage Phase 1
+            max: 240
+          - type: gauge
+            entity: sensor.p1_meter_voltage_phase_2
+            name: Voltage Phase 2
+            max: 240
+          - type: gauge
+            entity: sensor.p1_meter_voltage_phase_3
+            name: Voltage Phase 3
+            max: 240

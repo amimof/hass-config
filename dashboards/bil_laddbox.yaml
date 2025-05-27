@@ -1,0 +1,235 @@
+title: Laddbox
+path: bil-laddbox
+subview: true
+cards: []
+type: sections
+#badges:
+#- type: entity
+#  entity: sensor.garo_glb_status
+background: center / cover no-repeat url('/local/backgrounds/gradient-2.png') 
+sections:
+
+  - type: grid
+    title: Smartladdning
+    cards:
+    - type: horizontal-stack
+      cards:
+      
+
+      - type: custom:button-card
+        entity: switch.chargebox_switch
+        icon: mdi:ev-plug-type2
+        name: Laddbox
+        template:
+        - base
+        custom_fields:
+          secondary: >
+            [[[
+              if (entity.state == 'on')
+                return `<ha-icon icon="mdi:toggle-switch" style="color: var(--success-color)"></ha-icon>`
+              else 
+                return `<ha-icon icon="mdi:toggle-switch-off-outline" style="color: var(--disabled-color)"></ha-icon>`
+            ]]]    
+            
+      - type: custom:button-card
+        entity: switch.ev_smart_charging_smart_charging_activated
+        tap_action:
+          action: toggle
+        icon: mdi:calendar-clock
+        name: Smartladda
+        template:
+        - base
+        custom_fields:
+          secondary: >
+            [[[
+              if (entity.state == 'on')
+                return `<ha-icon icon="mdi:toggle-switch" style="color: var(--success-color)"></ha-icon>`
+              else 
+                return `<ha-icon icon="mdi:toggle-switch-off-outline" style="color: var(--disabled-color)"></ha-icon>`
+            ]]] 
+      
+      - type: custom:button-card
+        entity: switch.ev_smart_charging_continuous_charging_preferred
+        icon: mdi:reload
+        name: Kontinuerlig
+        template:
+        - base
+        custom_fields:
+          secondary: >
+            [[[
+              if (entity.state == 'on')
+                return `<ha-icon icon="mdi:toggle-switch" style="color: var(--success-color)"></ha-icon>`
+              else 
+                return `<ha-icon icon="mdi:toggle-switch-off-outline" style="color: var(--disabled-color)"></ha-icon>`
+            ]]]
+
+      - type: custom:button-card
+        entity: button.ev_smart_charging_manually_start_charging
+        show_state: false
+        tap_action:
+          action: call-service
+          service: button.press
+          service_data:
+            entity_id: button.ev_smart_charging_manually_start_charging
+        icon: mdi:calendar-clock
+        name: Ladda nu
+        template:
+        - base
+
+
+    - type: entities
+      entities:
+      - entity: sensor.ev_smart_charging_status
+        name: Status      
+      - entity: input_number.chargebox_amperage_limit
+        name: Laddström
+      - entity: input_number.ev_charge_to
+        name: Ladda till
+      - entity: input_number.ev_soc_fixed
+        name: SoC
+      - entity: select.ev_smart_charging_charge_completion_time
+        name: Avresetid
+      - entity: select.ev_smart_charging_charge_start_time
+        name: Starta laddning
+
+
+    - type: custom:config-template-card
+      variables:
+        #start: "int(as_timestamp(state_attr('sensor.ev_smart_charging_charging', 'charging_start_time'))) * 1000"
+        starttime: new Date(states['sensor.ev_smart_charging_charging'].attributes.charging_start_time).getTime()
+        stoptime: new Date(states['sensor.ev_smart_charging_charging'].attributes.charging_stop_time).getTime()
+        nowtime: new Date().getTime()
+        #start: 1732654800000
+      entities:
+        - sensor.ev_smart_charging_charging
+      card:
+        type: custom:apexcharts-card
+        experimental:
+          color_threshold: true
+        graph_span: 2d
+        span:
+          start: day
+        yaxis:
+          - min: ~0
+            apex_config:
+              forceNiceScale: true
+        header:
+          title: Laddningsplan
+          show: true
+          show_states: false
+          colorize_states: true
+        all_series_config:
+          type: area
+          unit: Öre/kWh
+          curve: stepline
+          stroke_width: 3
+          show:
+            legend_value: false
+            in_header: raw
+            header_color_threshold: true
+        #now:
+        #  show: true
+        #  label: Nu
+        #  color: white
+  
+        series:
+          - entity: sensor.ev_smart_charging_charging
+            name: Elpris
+            unit: ' öre/kWh'
+            data_generator: >
+              return entity.attributes.raw_two_days.map((entry) => { return [new
+              Date(entry.start), entry.value]; });
+            type: line
+            float_precision: 0
+            show:
+              in_header: before_now
+            extend_to: false
+            color_threshold:
+              - value: -100
+                color: cyan
+              - value: 50
+                color: green
+              - value: 100
+                color: orange
+              - value: 200
+                color: red
+              - value: 300
+                color: magenta
+              - value: 500
+                color: black
+          #- entity: sensor.ev_smart_charging_charging
+          #  name: Smartladdning
+          #  data_generator: >
+          #    return entity.attributes.charging_schedule.map((entry) => { return
+          #    [new Date(entry.start), entry.value]; });
+          #  type: area
+          #  curve: stepline
+          #  stroke_width: 1
+          #  show:
+          #    in_header: false
+          #  extend_to: false
+        apex_config:
+          annotations:
+            xaxis:
+            - x: ${starttime}
+              x2: ${stoptime}
+              label:
+                text: 'Smartladdning'
+                borderWidth: 1
+                style:
+                  #background: "#03a9f4"
+                  background: black
+                  color: white
+            - x: ${nowtime}
+              label:
+                text: Nu
+                borderWidth: 1
+                style: 
+                  background: black
+                  color: white
+          height: 100px
+          legend:
+            show: false
+          xaxis:
+            type: datetime
+            tooltip:
+              enabled: false
+            crosshairs:
+              show: true  # Disables the vertical line (crosshair)
+            labels:
+              show: true
+              format: HH
+              hideOverlappingLabels: true
+          tooltip:
+            fixed:
+              enabled: true
+              position: topLeft
+              offsetY: -31
+              offsetX: 3
+            x:
+              show: true
+
+          
+  - type: grid
+    title: Info
+    column_span: 1
+    cards:
+    - type: entities
+      state_color: true
+      entities:
+        - entity: sensor.garo_glb_status
+          name: Status
+        - entity: sensor.garo_glb
+          name: Läge
+        - entity: sensor.garo_glb_charging_power
+          name: Laddningseffekt
+        - entity: sensor.garo_glb_charging_current
+          name: Laddningsström
+        - entity: sensor.garo_glb_current_limit
+          name: Laddström Max
+        - entity: sensor.garo_glb_session_energy
+          name: Laddning senaste session
+        - entity: sensor.garo_glb_phases
+          name: Faser
+        - entity: sensor.garo_glb_temperature
+          name: Laddbox temp

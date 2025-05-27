@@ -1,0 +1,24 @@
+title: Belysning
+path: kontor-belysning
+subview: true
+cards: []
+type: sections
+background: center / cover no-repeat url('/local/backgrounds/gradient-2.png') 
+sections:
+  - type: grid
+    column_span: 1
+    title: Taklampan
+    cards: 
+    - features:
+        - type: light-brightness
+        - type: light-color-temp
+      type: tile
+      entity: light.ikea_of_sweden_tradfri_bulb_gu10_ws_400lm_light
+      show_entity_picture: false
+      vertical: false
+      hide_state: false
+      name: Spot
+      layout_options:
+        grid_columns: 4
+        grid_rows: 3
+    

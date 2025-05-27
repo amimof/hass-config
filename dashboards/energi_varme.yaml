@@ -1,0 +1,233 @@
+title: Värme
+path: energi-varme
+subview: true
+cards: []
+type: sections
+background: center / cover no-repeat url('/local/backgrounds/gradient-2.png') 
+badges:
+  - type: entity
+    entity: sensor.hp_outdoor
+    show_name: true
+    name: Utomhus
+sections:
+
+  - type: grid
+    title: Komfortvärme
+    column_span: 1
+    columns: 2
+    cards:
+    
+    - type: grid
+      columns: 2
+      layout_options:
+        grid_columns: 2
+      cards:
+      - type: custom:button-card
+        entity: switch.shelly1pmminig3_5432045a7d68_switch_0
+        name: Tvättstuga
+        icon: mdi:heat-wave
+        template:
+        - base
+        state_display: >
+          [[[
+            if (entity.state == 'unavailable')
+              return 'N/A'
+            else if (entity.state == 'off')
+              return 'Av'
+            else
+              return states["sensor.shelly1pmminig3_5432045a7d68_switch_0_power"].state + " W"
+          ]]]
+        custom_fields:
+          secondary: >
+            [[[
+              if (entity.state == 'on')
+                return `<ha-icon icon="mdi:toggle-switch" style="color: var(--success-color)"></ha-icon>`
+              else 
+                return `<ha-icon icon="mdi:toggle-switch-off-outline" style="color: var(--disabled-color)"></ha-icon>`
+            ]]]
+            
+      - type: custom:button-card
+        entity: switch.shelly1pmminig3_34b7da8f7b8c_switch_0
+        name: Badrum
+        icon: mdi:heat-wave
+        template:
+        - base
+        state_display: >
+          [[[
+            if (entity.state == 'unavailable')
+              return 'N/A'
+            else if (entity.state == 'off')
+              return 'Av'
+            else
+              return states["sensor.shelly1pmminig3_34b7da8f7b8c_switch_0_power"].state + " W"
+          ]]]
+        custom_fields:
+          secondary: >
+            [[[
+              if (entity.state == 'on')
+                return `<ha-icon icon="mdi:toggle-switch" style="color: var(--success-color)"></ha-icon>`
+              else 
+                return `<ha-icon icon="mdi:toggle-switch-off-outline" style="color: var(--disabled-color)"></ha-icon>`
+            ]]]
+      - type: 'custom:button-card'
+        entity: switch.hp_extra_heat_switch
+        name: Extra värme
+        show_state: true
+        show_icon: true
+        aspect_ratio: 1/1
+        icon: mdi:heat-wave
+        template:
+        - base
+        state_display: >
+          [[[
+            if (entity.state == 'unavailable')
+              return 'N/A'
+            if (entity.state == 'off')
+              return 'Av'
+            if (entity.state == 'on')
+              return 'På'
+          ]]]
+        custom_fields:
+          secondary: >
+            [[[
+              if (entity.state == 'on')
+                return `<ha-icon icon="mdi:toggle-switch" style="color: var(--state-icon-color)"></ha-icon>`
+              else 
+                return `<ha-icon icon="mdi:toggle-switch-off-outline" style="color: var(--disabled-color)"></ha-icon>`
+            ]]]
+            
+            
+            
+            
+            
+    - type: vertical-stack
+      layout_options:
+        grid_columns: 2
+      cards:
+  
+      
+      - type: gauge
+        entity: sensor.hp_add_heat_status
+        name: Elpatron
+        layout_options:
+          grid_columns: 2
+          grid_rows: 2
+    
+    
+      - type: sensor
+        graph: line
+        entity: sensor.hp_power_consumption
+        name: Förbrukning
+        detail: 1
+        layout_options:
+          grid_columns: 2
+          grid_rows: 2
+
+      
+  - type: grid
+    title: Inställningar
+    column_span: 1
+    cards: 
+    - type: custom:mushroom-climate-card
+      entity: climate.hp_heat_set_1_curvel
+      collapsible_controls: false
+      show_temperature_control: true
+      primary_info: name
+      secondary_info: none
+      icon: mdi:sun-thermometer
+      tap_action:
+        action: none
+      hold_action:
+        action: none
+      double_tap_action:
+        action: none
+      name: Kurva L
+    - type: custom:mushroom-climate-card
+      entity: climate.hp_heat_set_2_curver
+      collapsible_controls: false
+      show_temperature_control: true
+      primary_info: name
+      secondary_info: none
+      icon: mdi:snowflake-thermometer
+      tap_action:
+        action: none
+      hold_action:
+        action: none
+      double_tap_action:
+        action: none
+      name: Kurva R
+    - type: custom:mushroom-climate-card
+      entity: climate.hp_warm_water_start_temp
+      collapsible_controls: false
+      show_temperature_control: true
+      primary_info: name
+      secondary_info: none
+      icon: mdi:water-thermometer
+      tap_action:
+        action: none
+      hold_action:
+        action: none
+      double_tap_action:
+        action: none
+      name: VV Start
+    - type: custom:mushroom-climate-card
+      entity: climate.hp_warm_water_stop_temp
+      collapsible_controls: false
+      show_temperature_control: true
+      primary_info: name
+      secondary_info: none
+      icon: mdi:water-thermometer-outline
+      tap_action:
+        action: none
+      hold_action:
+        action: none
+      double_tap_action:
+        action: none
+      name: VV Stop
+  - type: grid
+    title: Sensorstatistik
+    column_span: 1
+    cards:
+    - type: custom:apexcharts-card
+      graph_span: 24h
+      header:
+        standard_format: true
+        show: true
+      series:
+        - entity: sensor.hp_radiator_return
+          name: Retur
+          type: line
+          group_by:
+            func: last
+            duration: 15m
+          stroke_width: 1
+        - entity: sensor.hp_warm_water_1_top
+          type: line
+          name: Varmvatten
+          stroke_width: 1
+          show:
+            in_chart: true
+          group_by:
+            func: last
+            duration: 15m
+        - entity: sensor.hp_heat_carrier_forwrd
+          name: Framledning
+          type: line
+          group_by:
+            func: last
+            duration: 15m
+          stroke_width: 1
+        - entity: sensor.hp_heating_setpoint
+          name: Börvärde
+          type: line
+          group_by:
+            func: last
+            duration: 15m
+          stroke_width: 1
+        - entity: sensor.hp_outdoor
+          name: Utetemp
+          type: line
+          group_by:
+            func: last
+            duration: 15m
+          stroke_width: 1

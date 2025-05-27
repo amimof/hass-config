@@ -1,0 +1,21 @@
+title: Chromecast
+path: vardagsrum-chromecast
+subview: true
+cards: []
+background: center / cover no-repeat url('/local/backgrounds/gradient-2.png') 
+type: sections
+sections:
+    - type: grid
+      cards:
+        - type: media-control
+          entity: media_player.chromecast_hd_3
+          layout_options:
+            grid_columns: 4
+            grid_rows: 4
+      title: Spelas nu
+      column_span: 1
+max_columns: 3
+dense_section_placement: true
+
+
+

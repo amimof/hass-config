@@ -1,0 +1,12 @@
+light:
+  template:
+  - circle
+  styles:
+    icon:
+    - color: > 
+        [[[
+          return (entity.state == 'unavailable')
+            ? "var(--disabled-text-color)"
+            : 'var(--state-switch-active-color)';
+        ]]]
+    

@@ -1,0 +1,12 @@
+card:
+- border: >
+    [[[
+      if (states['binary_sensor.hp_compressor'].state == "on")
+        return 'var(--border-yellow)'
+      return 'var(--border-default)'
+    ]]]
+- box-shadow: >
+    [[[
+      if (states['binary_sensor.hp_compressor'].state  == "on")
+        return 'var(--border-glow-yellow)'
+    ]]]

@@ -1,0 +1,62 @@
+amir:
+  modes: { dark: { .: . } }
+  
+  primary-font-family: 'SF Pro Text, Roboto, system-ui'
+  
+  # Brand colors
+  spotify-green: '#1DB954'
+  netflix-red: '#E50914'
+  svtplay-green: '#A7D400'
+  youtube-red: '#FF0000'
+
+  google-red-500: '#bf3838'
+  google-green-500: '#5b8d47'
+
+  # Colors
+  color-green: "rgba(45,255,196,0.82)"
+  color-yellow: "rgba(255,178,46,0.82)"
+  color-orange: "rgba(255,111,33,0.82)"
+  color-red: "rgba(255,81,18,0.82)"
+  
+  # Main colors
+  accent-color: '#1A89F5'
+  success-color: 'var(--color-green)'
+  warning-color: 'var(--color-yellow)'
+  info-color: 'var(--color-orange)'
+  error-color: 'var(--color-red)'
+  
+  # Background
+  background: center / cover no-repeat fixed url('/local/backgrounds/gradient-2.png')
+  background-color: 'rgba(27, 38, 44, 1)'
+  background-color-2: 'rgba(27, 38, 44, 0.5)'
+  primary-background-color: 'var(--background-color)'
+  secondary-background-color: 'none'
+  markdown-code-background-color: 'var(--background-color)'
+  material-background-color: "var(--paper-listbox-background-color)"
+  material-secondary-background-color: 'var(--ha-card-background)'
+  clear-background-color: 'var(--accent-color)'
+  
+  # Paper
+  paper-card-background-color: 'var(--background-color)'
+  paper-card-disabled-background-color: 'var(--background-color-2)'
+  
+  # Ha card
+  ha-card-background: 'var(--paper-card-background-color)' #'linear-gradient(145deg, #273246, #2e3b53)
+  
+  
+
+  
+  #border_color: [[[ return colors.color-green ]]]
+  
+  # Legacy, keeping it for now
+  #border-glow-green: '0px 0px 6px 0px var(--color-green)'
+  #border-glow-yellow: '0px 0px 6px 0px var(--color-yellow)'
+  #border-glow-orange: '0px 0px 6px 0px var(--color-orange)'
+  #border-glow-red: '0px 0px 6px 0px var(--color-red)'
+  #border-glow-blue: '0px 0px 6px 0px var(--color-blue)'
+  #border-default: '1px solid rgb(80,80,80)'
+  #border-green: '1px solid var(--color-green)'
+  #border-yellow: '1px solid var(--color-yellow)'
+  #border-orange: '1px solid var(--color-orange)'
+  #border-red: '1px solid var(--color-red)'
+  #border-blue: '1px solid var(--color-blue)'

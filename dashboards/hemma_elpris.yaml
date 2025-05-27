@@ -1,0 +1,181 @@
+title: Elpris
+path: hemma-elpris
+subview: true
+cards: []
+type: sections
+background: center / cover no-repeat url('/local/backgrounds/gradient-2.png') 
+badges:
+  - type: entity
+    entity: sensor.electricity_price_human_readable
+    
+sections:
+  - type: grid
+    column_span: 1
+    title: Automationer
+    cards:
+
+    - type: custom:mushroom-number-card
+      entity: input_number.high_energy_price_threshold
+      layout_options:
+        grid_columns: 3
+        grid_rows: 2
+      fill_container: false
+      name: Golvvärme auto-av vid
+      icon: mdi:flash-auto
+      display_mode: buttons
+
+
+  - type: grid
+    column_span: 1
+    title: Spotpriser
+    cards:
+    - type: custom:apexcharts-card
+      experimental:
+        color_threshold: true
+      graph_span: 1d
+      yaxis:
+      - id: primary
+        min: 0
+      header:
+        title: Idag (Öre/kWh)
+        show: true
+        show_states: false
+        colorize_states: true
+      all_series_config:
+        color_threshold:
+          - value: -100
+            color: cyan
+          - value: 50
+            color: green
+          - value: 100
+            color: orange
+          - value: 200
+            color: red
+          - value: 300
+            color: magenta
+          - value: 500
+            color: black
+        type: area
+        unit: Öre/kWh
+        curve: stepline
+        stroke_width: 3
+        #extend_to: now
+        group_by:
+          fill: 'null'
+        show:
+          legend_value: false
+          in_header: raw
+          header_color_threshold: true
+      span:
+        start: day
+      now:
+        show: true
+        label: Nu
+        color: white
+      series:
+        - entity: sensor.nordpool_kwh_se3_sek_3_10_025
+          name: Idag
+          show:
+            extremas: true
+          data_generator: |
+            return entity.attributes.raw_today.map((start, index) => {
+              return [new Date(start["start"]).getTime(), Math.trunc(entity.attributes.raw_today[index]["value"])];
+            });
+      apex_config:
+        xaxis:
+          tooltip:
+            enabled: false
+          crosshairs:
+            show: true  # Disables the vertical line (crosshair)
+        chart:
+          height: 250px
+        tooltip:
+          #followCursor: true
+          fixed:
+            enabled: true
+            position: topLeft
+            offsetY: -31
+            offsetX: 3
+          x:
+            show: true
+    - type: custom:apexcharts-card
+      experimental:
+        color_threshold: true
+      graph_span: 1d
+      yaxis:
+      - id: primary
+        min: 0
+      header:
+        title: Imorgon (Öre/kWh)
+        show: true
+        show_states: false
+        colorize_states: true
+      all_series_config:
+        color_threshold:
+          - value: -100
+            color: cyan
+          - value: 50
+            color: green
+          - value: 100
+            color: orange
+          - value: 200
+            color: red
+          - value: 300
+            color: magenta
+          - value: 500
+            color: black
+        type: area
+        unit: Öre/kWh
+        curve: stepline
+        stroke_width: 3
+        #extend_to: now
+        group_by:
+          fill: 'null'
+        show:
+          legend_value: false
+          in_header: raw
+          header_color_threshold: true
+      span:
+        start: day
+        offset: +1d
+      series:
+        - entity: sensor.nordpool_kwh_se3_sek_3_10_025
+          name: Imorgon
+          show:
+            extremas: true
+          data_generator: |
+            return entity.attributes.raw_tomorrow.map((start, index) => {
+              return [new Date(start["start"]).getTime(), Math.trunc(entity.attributes.raw_tomorrow[index]["value"])];
+            });
+      apex_config:
+        xaxis:
+          tooltip:
+            enabled: false
+          crosshairs:
+            show: true  # Disables the vertical line (crosshair)
+        chart:
+          height: 250px
+        tooltip:
+          #followCursor: false
+          fixed:
+            enabled: true
+            position: topLeft
+            offsetY: -31
+            offsetX: 3
+          x:
+            show: true
+
+  - type: grid
+    column_span: 1
+    title: Tibber denna månaden
+    cards:
+    - type: entities
+      entities:
+      - entity: sensor.huset_monthly_cost
+        name: Kostnad Hittils
+      - entity: sensor.huset_monthly_net_consumption
+        name: Förbrukat Hittils
+      - entity: sensor.huset_monthly_peak_hour_consumption
+        name: Max timförbrukning 
+      - entity: sensor.huset_time_of_max_hour_consumption
+        name: Förbrukar som mest 

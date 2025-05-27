@@ -1,0 +1,46 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: Krypgrunden
+    content:
+      type: horizontal-stack
+      card_mod:
+        style: |
+          #states {
+            padding-top: 0.5em;
+          }
+      cards:
+      - type: vertical-stack
+        cards:
+        - type: entities
+          entities:
+          - entity: sensor.lumi_lumi_weather_battery
+            name: Batteri
+          - entity: sensor.lumi_lumi_weather_pressure
+            name: Tryck
+        - type: custom:apexcharts-card
+          layout: minimal
+          graph_span: 24h
+          header:
+            standard_format: false
+            show: true
+            title: Krypgrund Miljö
+          series:
+          - entity: sensor.lumi_lumi_weather_humidity
+            name: Luftfuktighet
+            type: line
+            group_by:
+              func: last
+              duration: 15m
+            stroke_width: 3
+            show:
+              header_color_threshold: true
+          - entity: sensor.lumi_lumi_weather_temperature
+            type: area
+            name: Temperatur
+            show:
+              in_chart: true
+            group_by:
+              func: last
+              duration: 15m

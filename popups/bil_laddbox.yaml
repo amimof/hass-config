@@ -1,0 +1,69 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: Laddbox
+    content:
+      type: horizontal-stack
+      card_mod:
+        style: |
+          #states {
+            padding-top: 0.5em;
+          }
+      cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:bubble-card
+            card_type: separator
+            name: Controls
+            icon: mdi:cog
+          - type: entities
+            state_color: true
+            entities:
+              - entity: sensor.garo_glb_status
+                name: Status
+              - entity: input_boolean.chargebox_toggle
+                name: Av/På
+              - entity: input_number.chargebox_amperage_limit 
+                name: Max Ström
+          - type: custom:bubble-card
+            card_type: separator
+            name: Information
+            icon: mdi:information
+          - type: custom:apexcharts-card
+            experimental:
+              color_threshold: true
+            graph_span: 4h
+            layout: advanced
+            header:
+              title: Laddning
+              show: true
+              show_states: true
+              colorize_states: true
+            all_series_config:
+              type: line
+              stroke_width: 1
+              show:
+                legend_value: false
+                in_header: raw
+                header_color_threshold: true
+            series:
+              - entity: sensor.garo_glb_charging_power
+                name: Effekt
+                type: area
+                transform: "return entity.state / 1000"
+              - entity: sensor.garo_glb_charging_current
+                name: Ström
+                type: line
+          - type: entities
+            state_color: true
+            entities:
+              - entity: sensor.garo_glb
+              - entity: sensor.garo_glb_charging_power
+              - entity: sensor.garo_glb_charging_current
+              - entity: sensor.garo_glb_current_limit
+              - entity: sensor.garo_glb_session_energy
+              - entity: sensor.garo_glb_status
+              - entity: sensor.garo_glb_temperature
+              - entity: sensor.garo_glb_total_energy
+              - entity: sensor.garo_glb_total_energy_kwh

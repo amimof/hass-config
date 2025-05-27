@@ -1,0 +1,306 @@
+button_card_templates: !include_dir_merge_named templates
+views:
+  - type: custom:grid-layout
+    title: Home
+    icon: mdi:house
+    background: center / cover no-repeat fixed url('/local/backgrounds/gradient-2.png')
+    layout:
+      #default
+      margin: 0
+      grid-gap: 12px
+      grid-template-columns: repeat(5, 1fr) 0
+      grid-template-rows: 0 repeat(2, fit-content(100%)) 0fr
+      grid-template-areas: |
+        ".        .        .           .        ."
+        ".        hemma    vardagsrum  kontor   ."
+        ".        energi   bil         sovrum   ."
+        ".        kök      .           .        ."
+        ".        .        .           .        ."
+      mediaquery:
+        #phone
+        "(max-width: 800px)":
+          grid-gap: calc(var(--custom-layout-card-padding) * 1.7)
+          grid-template-columns: 0 repeat(2, 1fr) 0
+          grid-template-rows: 0 repeat(7, fit-content(100%)) 0fr
+          grid-template-areas: |
+            ".  .           .           ."
+            ".  hemma       vardagsrum  ."
+            ".  kontor      energi      ."
+            ".  bil         sovrum      ."
+            ".  kök         .           ."
+            ".  .           .           ."
+        #portrait
+        "(max-width: 1200px)":
+          grid-gap: var(--custom-layout-card-padding)
+          grid-template-columns: repeat(3, 1fr) 0
+          grid-template-rows: 0 repeat(3, fit-content(100%)) 0fr
+          grid-template-areas: |
+            ".           .           .      "
+            "hemma       vardagsrum  kontor "
+            "energi      bil         sovrum "
+            "kök         .           .      "
+            ".           .           .      "
+    cards:
+
+      # HEMMA 
+      
+      - type: grid
+        title: Hemma
+        view_layout:
+          grid-area: hemma
+        columns: 2
+        cards:
+        - type: custom:button-card
+          name: Sophämtning
+          entity: sensor.vivab_garbage_collection_days_remaining
+          template:
+          - base
+          tap_action:
+            action: navigate
+            navigation_path: /home-dashboard/hemma-sophamtning
+        - type: custom:button-card
+          name: Elpris
+          entity: sensor.huset_electricity_price
+          template:
+          - base
+          state_display: >
+            [[[
+              if (states['sensor.huset_electricity_price'].state < 1)
+                return Math.round(states['sensor.huset_electricity_price'].state * 100) + " öre"
+              else
+                return (states['sensor.huset_electricity_price'].state) + " kr"
+            ]]]
+          #styles:
+          #  !include styles/hemma_elpris.yaml
+          tap_action:
+            action: navigate
+            navigation_path: /home-dashboard/hemma-elpris
+
+      # VARDAGSRUM
+
+      - type: grid
+        title: Vardagsrum
+        view_layout:
+          grid-area: vardagsrum
+        columns: 2
+        cards:
+        - type: custom:button-card
+          entity: media_player.chromecast_hd_3
+          icon: fab:chromecast
+          name: TV
+          template:
+          - base
+          - chromecast
+          tap_action:
+            action: navigate
+            navigation_path: /home-dashboard/vardagsrum-chromecast
+            
+            
+        - type: custom:button-card
+          entity: media_player.spotify_amimof
+          icon: fab:spotify
+          name: Spotify
+          template:
+          - base
+          - spotify
+          tap_action:
+            action: navigate
+            navigation_path: /home-dashboard/vardagsrum-spotify
+
+
+      # KONTOR
+
+      - type: grid
+        title: Kontor
+        view_layout:
+          grid-area: kontor
+        columns: 2
+        cards:
+          - type: custom:button-card
+            entity: light.0x000b57fffee671d7
+            icon: mdi:lightbulb-group
+            name: Belysning
+            template:
+            - base
+            - light
+            tap_action:
+              action: navigate
+              navigation_path: /home-dashboard/kontor-belysning
+
+          - type: custom:button-card
+            entity: sensor.canon_ts5100_series
+            icon: mdi:printer
+            name: Skrivare
+            template:
+            - base
+            tap_action:
+              action: navigate
+              navigation_path: /home-dashboard/kontor-skrivare
+
+          - type: custom:button-card
+            entity: sensor.amirs_pc_amirs_pc_sessionstate
+            icon: fas:computer
+            name: PC
+            template:
+            - base
+            tap_action:
+              action: navigate
+              navigation_path: /home-dashboard/kontor-pc
+            custom_fields:
+              secondary: >
+                [[[
+                  if (entity.state == "Locked")
+                    return `<ha-icon icon="mdi:lock"></ha-icon>`
+                  if (entity.state == "Unlocked")
+                    return `<ha-icon icon="mdi:lock-open"></ha-icon>`
+                ]]]
+
+      # SOVRUM
+      
+      - type: grid
+        title: Sovrum
+        view_layout:
+          grid-area: sovrum
+        columns: 2
+        cards: []
+      
+      # BIL
+      
+      - type: grid
+        title: Bil
+        view_layout:
+          grid-area: bil
+        columns: 2
+        cards:
+        - type: custom:button-card
+          entity: sensor.garo_glb_status
+          icon: mdi:car-electric
+          name: Laddbox
+          template:
+          - base
+          tap_action:
+            action: navigate
+            navigation_path: /home-dashboard/bil-laddbox
+          #styles:
+          #  !include styles/bil_laddbox.yaml
+          state_display: >
+            [[[
+              if (entity.state == "NOT_CONNECTED")
+                return "Ej ansluten"
+              if (entity.state == "CONNECTED")
+                return "Ansluten"
+              if (entity.state == "CHARGING_FINISHED")
+                return "Laddning Färdig"
+              if (entity.state == "CHARGING")
+                return "Laddar"
+              if (entity.state == "CHARGING_PAUSED")
+                return "Pausad"
+            ]]]
+          custom_fields:
+            secondary: >
+              [[[
+                if (entity.state == "NOT_CONNECTED")
+                  return `<ha-icon icon="mdi:power-plug-off"></ha-icon>`
+                if (entity.state == "CONNECTED")
+                  return `<ha-icon icon="mdi:power-plug"></ha-icon>`
+                if (entity.state == "CHARGING")
+                  return `<ha-icon icon="mdi:lightning-bolt-circle" style="color: var(--color-yellow)"></ha-icon>`
+                if (entity.state == "CHARGING_FINISHED")
+                  return `<ha-icon icon="fas:plug-circle-check" style="color: var(--color-green)"></ha-icon>`
+                if (entity.state == "CHARGING_PAUSED")
+                  return `<ha-icon icon="mdi:pause" style="color: var(--color-blue)"></ha-icon>`
+              ]]]
+              
+        - type: custom:button-card
+          entity: automation.toggle_garage_door_relay_switch
+          icon: mdi:garage-door
+          name: Garagedörr
+          template:
+          - base
+          tap_action:
+            action: call-service
+            service: automation.trigger
+            service_data:
+              entity_id: automation.toggle_garage_door_relay_switch
+              
+
+                  
+      # ENERGI
+      - type: grid
+        title: Energi
+        view_layout:
+          grid-area: energi
+        columns: 2
+        cards:
+        - type: custom:button-card
+          entity: sensor.p1_meter_power
+          icon: mdi:lightning-bolt
+          name: El
+          template:
+          - base
+          #styles:
+          #  !include styles/energi_el.yaml
+          tap_action:
+            action: navigate
+            navigation_path: /home-dashboard/energi-el
+            
+        - type: custom:button-card
+          entity: sensor.hp_heating_setpoint
+          icon: mdi:home-thermometer
+          name: Värme
+          template:
+          - base
+          tap_action:
+            action: navigate
+            navigation_path: /home-dashboard/energi-varme
+          #styles:
+          #  !include styles/energi_varme.yaml
+          custom_fields:
+            secondary: >
+              [[[
+                if (states['binary_sensor.hp_compressor'].state == "on")
+                  return `<ha-icon icon="mdi:heat-wave" style="color: var(--state-switch-active-color)"></ha-icon>`
+                if (states['binary_sensor.hp_alarm'].state == "on")
+                  return `<ha-icon icon="mdi:alert" style="color: var(--color-red)"></ha-icon>`
+              ]]]
+            
+        - type: custom:button-card
+          entity: sensor.aqara_humidity_sensor_humidity
+          icon: mdi:water-percent
+          name: Krypgrund
+          template:
+          - base
+          tap_action:
+            action: navigate
+            navigation_path: /home-dashboard/energi-krypgrund
+
+      # KÖK
+      
+      - type: grid
+        title: Kök
+        view_layout:
+          grid-area: kök
+        columns: 2
+        cards: []
+  -
+    !include dashboards/bil_laddbox.yaml
+  -
+    !include dashboards/vardagsrum_chromecast.yaml
+  -
+    !include dashboards/vardagsrum_spotify.yaml
+  -
+    !include dashboards/kontor_pc.yaml
+  -
+    !include dashboards/kontor_belysning.yaml
+  -
+    !include dashboards/kontor_skrivare.yaml
+  - 
+    !include dashboards/energi_el.yaml
+  - 
+    !include dashboards/energi_varme.yaml
+  - 
+    !include dashboards/energi_krypgrund.yaml
+  - 
+    !include dashboards/hemma_elpris.yaml
+  - 
+    !include dashboards/hemma_sophamtning.yaml

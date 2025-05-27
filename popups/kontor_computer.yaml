@@ -1,0 +1,45 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: Gaming PC
+    content:
+      type: horizontal-stack
+      card_mod:
+        style: |
+          #states {
+            padding-top: 0.5em;
+          }
+      cards:
+      - type: vertical-stack
+        cards:
+        - type: custom:bubble-card
+          card_type: separator
+          name: Controls
+          icon: mdi:cog
+        - type: horizontal-stack
+          cards:
+          - type: custom:button-card
+            entity: button.amirs_pc_amirs_pc_sleep
+            icon: mdi:power-sleep
+            name: Sleep
+
+          - type: custom:button-card
+            entity: button.amirs_pc_amirs_pc_lock
+            icon: mdi:lock
+            name: Lock
+
+          - type: custom:button-card
+            entity: button.amirs_pc_amirs_pc_shutdown
+            icon: mdi:power
+            name: Shutdown
+
+          - type: custom:button-card
+            entity: button.amirs_pc_amirs_pc_restart
+            icon: mdi:restart
+            name: Reboot
+
+          - type: custom:button-card
+            entity: button.amirs_pc_amirs_pc_logoff
+            icon: mdi:logout
+            name: Logoff

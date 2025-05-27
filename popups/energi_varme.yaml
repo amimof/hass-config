@@ -1,0 +1,86 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: Värme
+    content:
+      type: horizontal-stack
+      card_mod:
+        style: |
+          #states {
+            padding-top: 0.5em;
+          }
+      cards:
+      - type: vertical-stack
+        cards:
+        - type: custom:bubble-card
+          card_type: separator
+          name: Till/Från
+          icon: mdi:cog
+        - type: entities
+          entities:
+          - entity: switch.shelly1pmminig3_5432045a7d68_switch_0
+            name: Golvvärme Tvättstuga
+          - entity: switch.shelly1pmminig3_34b7da8f7b8c_switch_0
+            name: Golvvärme Badrum
+        - type: custom:bubble-card
+          card_type: separator
+          name: Värmepumpen
+          icon: mdi:heat-wave
+        - type: entities
+          entities:
+            - entity: binary_sensor.hp_alarm
+              name: Värmepump Alarm
+            - entity: climate.hp_heat_set_1_curvel
+              name: Curve Left
+            - entity: climate.hp_heat_set_2_curver
+              name: Curve Right
+            - entity: climate.hp_warm_water_stop_temp
+              name: Varmvatten Stop
+            - entity: climate.hp_warm_water_start_temp
+              name: Varmvatten Start
+          state_color: true
+        - type: custom:apexcharts-card
+          graph_span: 24h
+          header:
+            standard_format: true
+            show: true
+            title: Sensorer
+          series:
+            - entity: sensor.hp_radiator_return
+              name: Retur
+              type: line
+              group_by:
+                func: last
+                duration: 15m
+              stroke_width: 1
+            - entity: sensor.hp_warm_water_1_top
+              type: line
+              name: Varmvatten
+              stroke_width: 1
+              show:
+                in_chart: true
+              group_by:
+                func: last
+                duration: 15m
+            - entity: sensor.hp_heat_carrier_forwrd
+              name: Framledning
+              type: line
+              group_by:
+                func: last
+                duration: 15m
+              stroke_width: 1
+            - entity: sensor.hp_heating_setpoint
+              name: Börvärde
+              type: line
+              group_by:
+                func: last
+                duration: 15m
+              stroke_width: 1
+            - entity: sensor.hp_outdoor
+              name: Utetemp
+              type: line
+              group_by:
+                func: last
+                duration: 15m
+              stroke_width: 1

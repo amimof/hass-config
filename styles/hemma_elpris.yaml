@@ -1,0 +1,25 @@
+card:
+- border: >
+    [[[
+      let val = states['sensor.huset_electricity_price'].state
+      if (val >= 0.5 && val < 0.8)
+        return 'var(--border-yellow)'
+      else if (val >= 0.8 && val < 1.25)
+        return 'var(--border-orange)'
+      else if (val >= 1.25)
+        return 'var(--border-red)'
+      else
+        return 'var(--border-green)'
+    ]]]
+- box-shadow: >
+    [[[
+      let val = states['sensor.huset_electricity_price'].state
+      if (val >= 0.5 && val < 0.8)
+        return 'var(--border-glow-yellow)'
+      if (val >= 0.8 && val < 1.25)
+        return 'var(--border-glow-orange)'
+      if (val > 1.25)
+        return 'var(--border-glow-red)'
+      else
+        return 'var(--border-glow-green)'
+    ]]]

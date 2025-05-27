@@ -1,0 +1,62 @@
+title: Garage
+path: garage-door
+type: sections
+subview: true
+max_columns: 2
+icon: mdi:garage
+background: center / cover no-repeat url('/local/backgrounds/gradient-2.png') 
+sections:
+  - type: grid
+    cards:
+    - type: vertical-stack
+      cards:
+      - type: heading
+        heading: Garageport
+        icon: mdi:garage
+      - type: custom:mushroom-cover-card
+        entity: cover.garagedoor_garage_door
+        grid_options:
+          columns: full
+        show_buttons_control: true
+        primary_info: none
+        secondary_info: state
+        fill_container: false
+
+      - type: horizontal-stack
+        cards:
+        - type: custom:button-card
+          entity: switch.garagedoor_virtual_lock
+          icon: mdi:lock
+          name: Lås
+          template:
+          - base
+          tap_action:
+            action: toggle
+          custom_fields:
+            secondary: >
+              [[[
+                if (entity.state == 'on')
+                  return `<ha-icon icon="mdi:toggle-switch" style="color: var(--success-color)"></ha-icon>`
+                else 
+                  return `<ha-icon icon="mdi:toggle-switch-off-outline" style="color: var(--disabled-color)"></ha-icon>`
+              ]]]  
+              
+        - type: custom:button-card
+          entity: binary_sensor.garagedoor_is_jammed
+          name: Status
+          template:
+          - base
+          state_display: >
+      
+            [[[
+              if (entity.state == 'on')
+                return "Problem"
+              else 
+                return "OK"
+            ]]] 
+        - type: custom:button-card
+          template:
+          - blank
+        - type: custom:button-card
+          template:
+          - blank

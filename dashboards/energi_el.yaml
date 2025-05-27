@@ -1,0 +1,179 @@
+title: El
+path: energi-el
+subview: true
+cards: []
+type: sections
+background: center / cover no-repeat url('/local/backgrounds/gradient-2.png') 
+sections:
+  - type: grid
+    title: Senaste 24 timmarna
+    column_span: 1
+    cards:
+    - type: custom:apexcharts-card
+      graph_span: 1d
+      stacked: true
+      span:
+        end: hour
+      header:
+        show: true
+        title: Ström
+        colorize_states: true
+      all_series_config:
+        type: column
+        curve: smooth
+        stroke_width: 1
+        group_by:
+          func: avg 
+          duration: 1h 
+      series:
+        - entity: sensor.p1_meter_current_phase_1
+          name: Fas 1
+        - entity: sensor.p1_meter_current_phase_2
+          name: Fas 2
+        - entity: sensor.p1_meter_current_phase_3
+          name: Fas 3
+      apex_config:
+        apex_config:
+          forceNiceScale: true
+        yaxis:
+          min: 0
+          max: 22
+          tickAmount: 6
+        xaxis:
+          type: datetime
+          max: 'js:Date.now()' 
+          tooltip:
+            enabled: false
+          crosshairs:
+            show: true
+        chart:
+          height: 250px
+        tooltip:
+          followCursor: true
+          x:
+            show: true
+    - type: custom:apexcharts-card
+      graph_span: 1d
+      stacked: true
+      span:
+        end: hour
+      header:
+        show: true
+        title: Effekt
+        colorize_states: true
+      all_series_config:
+        type: column
+        curve: smooth
+        stroke_width: 1
+        group_by:
+          func: avg
+          duration: 1h 
+      series:
+        - entity: sensor.p1_meter_power_phase_1
+          name: Fas 1
+        - entity: sensor.p1_meter_power_phase_2
+          name: Fas 2
+        - entity: sensor.p1_meter_power_phase_3
+          name: Fas 3
+      apex_config:
+        apex_config:
+          forceNiceScale: true
+        xaxis:
+          type: datetime
+          max: 'js:Date.now()' 
+          tooltip:
+            enabled: false
+          crosshairs:
+            show: true
+        chart:
+          height: 250px
+        tooltip:
+          followCursor: true
+          x:
+            show: true
+    - type: custom:apexcharts-card
+      graph_span: 1d
+      stacked: true
+      span:
+        end: hour
+      header:
+        show: true
+        title: Spänning
+        colorize_states: true
+      all_series_config:
+        type: column
+        curve: smooth
+        stroke_width: 1
+        group_by:
+          func: avg
+          duration: 1h 
+      series:
+        - entity: sensor.p1_meter_voltage_phase_1
+          name: Fas 1
+        - entity: sensor.p1_meter_voltage_phase_2
+          name: Fas 2
+        - entity: sensor.p1_meter_voltage_phase_3
+          name: Fas 3
+      apex_config:
+        apex_config:
+          forceNiceScale: true
+        xaxis:
+          type: datetime
+          max: 'js:Date.now()' 
+          tooltip:
+            enabled: false
+          crosshairs:
+            show: true
+        chart:
+          height: 250px
+        tooltip:
+          followCursor: true
+          x:
+            show: true
+        
+  - type: grid
+    title: Mätare
+    column_span: 1
+    cards:
+      - type: horizontal-stack
+        cards:
+        - type: gauge
+          entity: sensor.p1_meter_current_phase_1
+          name: Current Phase 1
+          max: 16
+        - type: gauge
+          entity: sensor.p1_meter_current_phase_2
+          name: Current Phase 2
+          max: 16
+        - type: gauge
+          entity: sensor.p1_meter_current_phase_3
+          name: Current Phase 3
+          max: 16
+      - type: horizontal-stack
+        cards:
+        - type: gauge
+          entity: sensor.p1_meter_power_phase_1
+          name: Power Phase 1
+          max: 3700
+        - type: gauge
+          entity: sensor.p1_meter_power_phase_2
+          name: Power Phase 2
+          max: 3700
+        - type: gauge
+          entity: sensor.p1_meter_power_phase_3
+          name: Power Phase 3
+          max: 3700
+      - type: horizontal-stack
+        cards:
+        - type: gauge
+          entity: sensor.p1_meter_voltage_phase_1
+          name: Voltage Phase 1
+          max: 240
+        - type: gauge
+          entity: sensor.p1_meter_voltage_phase_2
+          name: Voltage Phase 2
+          max: 240
+        - type: gauge
+          entity: sensor.p1_meter_voltage_phase_3
+          name: Voltage Phase 3
+          max: 240

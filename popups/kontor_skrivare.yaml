@@ -1,0 +1,28 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: Skrivaren
+    content:
+      type: horizontal-stack
+      card_mod:
+        style: |
+          #states {
+            padding-top: 0.5em;
+          }
+      cards:
+      - type: vertical-stack
+        cards:
+        - type: custom:bubble-card
+          card_type: separator
+          name: Ink Levels
+          icon: mdi:water-opacity
+        - type: entities
+          state_color: true
+          entities:
+            - entity: input_number.canon_ts5100_black
+              name: Black
+            - entity: input_number.canon_ts5100_color
+              name: Color
+            - entity: sensor.canon_ts5100_series
+              name: Status

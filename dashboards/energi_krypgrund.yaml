@@ -1,0 +1,114 @@
+title: Krypgrund
+path: energi-krypgrund
+subview: true
+cards: []
+type: sections
+background: center / cover no-repeat url('/local/backgrounds/gradient-2.png') 
+sections:
+  - type: grid
+    title: Krypgrund
+    column_span: 1
+    cards:      
+      - type: picture-elements
+        image: /local/img/planlosning.png
+        elements:
+          - entity: sensor.crawl_space_sensor_0_humidity
+            style:
+              left: 30%
+              top: 80%
+            type: state-label
+          - entity: sensor.crawl_space_sensor_1_humidity
+            style:
+              left: 80%
+              top: 30%
+            type: state-label
+          - entity: sensor.crawl_space_sensor_2_humidity
+            style:
+              left: 80%
+              top: 80%
+            type: state-label            
+          - entity: sensor.crawl_space_sensor_3_humidity
+            style:
+              left: 30%
+              top: 30%
+            type: state-label       
+            
+      - type: custom:apexcharts-card
+        experimental:
+          color_threshold: true
+        graph_span: 12h
+        header:
+          title: Relativ Luftfuktighet
+          show: true
+          show_states: true
+          colorize_states: true
+        all_series_config:
+          type: line
+          stroke_width: 2
+          show:
+            in_header: raw
+            header_color_threshold: true
+          group_by:
+            duration: 30m
+            func: avg
+            fill: last
+        series:
+          - entity: sensor.crawl_space_sensor_0_humidity
+            name: "Sensor 0"
+            color: blue
+          - entity: sensor.crawl_space_sensor_1_humidity
+            name: "Sensor 1"
+            color: yellow
+          - entity: sensor.crawl_space_sensor_2_humidity
+            name: "Sensor 2"
+            color: purple
+          - entity: sensor.crawl_space_sensor_3_humidity
+            name: "Sensor 3"
+            color: green
+        apex_config:
+          xaxis:
+            tooltip:
+              enabled: false # Disable the x-axis tooltip
+          tooltip:
+            shared: true
+            intersect: false
+
+      - type: custom:apexcharts-card
+        experimental:
+          color_threshold: true
+        graph_span: 12h
+        header:
+          title: Temperatur
+          show: true
+          show_states: true
+          colorize_states: true
+        all_series_config:
+          type: line
+          stroke_width: 2
+          show:
+            in_header: raw
+            header_color_threshold: true
+          group_by:
+            duration: 30m
+            func: avg
+            fill: last
+        series:
+          - entity: sensor.crawl_space_sensor_0_temperature
+            name: "Sensor 0"
+            color: blue
+          - entity: sensor.crawl_space_sensor_1_temperature
+            name: "Sensor 1"
+            color: yellow
+          - entity: sensor.crawl_space_sensor_2_temperature
+            name: "Sensor 2"
+            color: purple
+          - entity: sensor.crawl_space_sensor_3_temperature
+            name: "Sensor 3"
+            color: green
+        apex_config:
+          xaxis:
+            tooltip:
+              enabled: false # Disable the x-axis tooltip
+          tooltip:
+            shared: true
+            intersect: false

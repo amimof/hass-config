@@ -1,0 +1,21 @@
+title: Sophämtning
+path: hemma-sophamtning
+subview: true
+cards: []
+type: sections
+background: center / cover no-repeat url('/local/backgrounds/gradient-2.png') 
+sections:
+  - type: grid
+    cards:
+    - type: entities
+      entities:
+        - entity: sensor.vivab_garbage_collection_days_remaining
+          name: Nästa tömning
+          secondary_info: none
+        - entity: sensor.vivab_garbage_collection
+          name: Datum
+        - entity: sensor.vivab_garbage_collection_days_remaining_number
+          name: Dagar kvar
+          icon: mdi:counter
+      state_color: false
+      title: Sophämtning

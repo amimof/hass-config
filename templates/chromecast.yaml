@@ -1,0 +1,28 @@
+chromecast:
+  variables:
+    media_on: >
+      [[[ return !entity || ['playing', 'paused'].indexOf(entity.state) !== -1; ]]]
+  styles:
+    card:
+    - background-image: >
+        [[[ 
+          if (variables.media_on)
+            if (entity.attributes.entity_picture_local)
+              return `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url(${window.location.origin}${entity.attributes.entity_picture_local})`; 
+        ]]]
+    - background-size: cover
+    - background-position: center
+    icon:
+    - color: 'var(--google-green-500)'
+  custom_fields:
+    secondary: >
+      [[[
+        if (entity.attributes.app_name == "Netflix")
+          return `<ha-icon icon="mdi:netflix" style="color: var(--netflix-red)"></ha-icon>`
+        if (entity.attributes.app_name == "YouTube")
+          return `<ha-icon icon="mdi:youtube" style="color: var(--youtube-red)"></ha-icon>`
+        if (entity.attributes.app_name == "SVT Play")
+          return `<ha-icon icon="mdi:play-circle" style="color: var(--svtplay-green)"></ha-icon>`
+        if (entity.attributes.app_name == "Spotify")
+          return `<ha-icon icon="mdi:spotify" style="color: var(--spotify-green)"></ha-icon>`
+      ]]]

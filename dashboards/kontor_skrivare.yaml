@@ -1,0 +1,19 @@
+title: Skrivare
+path: kontor-skrivare
+subview: true
+type: sections
+background: center / cover no-repeat url('/local/backgrounds/gradient-2.png') 
+sections: 
+  - type: grid
+    title: Status
+    column_span: 1
+    cards: 
+    - type: entities
+      state_color: true
+      entities:
+        - entity: sensor.canon_ts5100_series_black
+          name: Black
+        - entity: sensor.canon_ts5100_series_color
+          name: Color
+        - entity: sensor.canon_ts5100_series
+          name: Status

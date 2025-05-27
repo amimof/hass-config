@@ -1,0 +1,31 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: Belysning
+    content:
+      type: horizontal-stack
+      card_mod:
+        style: |
+          #states {
+            padding-top: 0.5em;
+          }
+      cards:
+      - type: vertical-stack
+        cards:
+        - type: custom:bubble-card
+          card_type: separator
+          name: Taklampa
+          icon: mdi:ceiling-light-multiple
+        - type: custom:mushroom-light-card
+          name: Taklampa 1
+          entity: light.ikea_of_sweden_tradfri_bulb_gu10_ws_400lm_light
+          use_light_color: false
+          show_brightness_control: true
+          show_color_temp_control: true
+          show_color_control: false
+          collapsible_controls: false
+          secondary_info: last-changed
+          
+   
+

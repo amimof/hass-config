@@ -1,0 +1,12 @@
+card:
+- border: >
+    [[[
+      if (states['sensor.garo_glb_status'].state == "CHARGING")
+        return 'var(--border-blue)'
+      return 'var(--border-default)'
+    ]]]
+- box-shadow: >
+    [[[
+      if (states['sensor.garo_glb_status'].state == "CHARGING")
+        return 'var(--border-glow-blue)'
+    ]]]

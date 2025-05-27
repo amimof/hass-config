@@ -1,0 +1,91 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: Elpris
+    content:
+      type: horizontal-stack
+      card_mod:
+        style: |
+          #states {
+            padding-top: 0.5em;
+          }
+      cards:
+      - type: vertical-stack
+        cards:
+        - type: custom:bubble-card
+          card_type: separator
+          name: Timpris (Öre/kWh)
+          icon: mdi:calendar
+        - type: custom:apexcharts-card
+          experimental:
+            color_threshold: true
+          graph_span: 2d
+          yaxis:
+          - id: primary
+            min: 0
+          header:
+            title: Timpriser (Öre/kWh)
+            show: true
+            show_states: true
+            colorize_states: true
+          all_series_config:
+            color_threshold:
+              - value: 0
+                color: green
+              - value: 75
+                color: orange
+              - value: 130
+                color: red
+            type: area
+            unit: Öre/kWh
+            curve: stepline
+            stroke_width: 3
+            extend_to: now
+            group_by:
+              fill: 'null'
+            show:
+              legend_value: false
+              in_header: raw
+              header_color_threshold: true
+          span:
+            start: day
+          now:
+            show: true
+            label: Nu
+            color: orange
+          series:
+            - entity: sensor.nordpool_kwh_se3_sek_3_10_0
+              name: Idag
+              offset: -1h
+              show:
+                extremas: true
+              data_generator: |
+                return entity.attributes.raw_today.map((start, index) => {
+                  return [new Date(start["start"]).getTime(), entity.attributes.raw_today[index]["value"]];
+                });
+            - entity: sensor.nordpool_kwh_se3_sek_3_10_0
+              name: Imorgon
+              show:
+                extremas: true
+                in_header: false
+              data_generator: |
+                return entity.attributes.raw_tomorrow.map((start, index) => {
+                  return [new Date(start["start"]).getTime(), entity.attributes.raw_tomorrow[index]["value"]];
+                });
+        - type: custom:bubble-card
+          card_type: separator
+          name: Denna Månaden
+          icon: mdi:calendar
+        - type: entities
+          entities:
+          - entity: sensor.huset_electricity_price
+            name: Just nu
+          - entity: sensor.huset_monthly_cost
+            name: Kostnad Hittils
+          - entity: sensor.huset_monthly_net_consumption
+            name: Förbrukat Hittils
+          - entity: sensor.huset_monthly_peak_hour_consumption
+            name: Max timförbrukning 
+          - entity: sensor.huset_time_of_max_hour_consumption
+            name: Förbrukar som mest 
