@@ -13,17 +13,57 @@ sections:
       - type: heading
         heading: Garageport
         icon: mdi:garage
-      - type: custom:mushroom-cover-card
-        entity: cover.garagedoor_garage_door
-        grid_options:
-          columns: full
-        show_buttons_control: true
-        primary_info: none
-        secondary_info: state
-        fill_container: false
+        
+      - type: entities
+        entities:
+          - entity: sensor.garagedoor_status
+            name: Status
+          - entity: binary_sensor.garagedoor_is_jammed
+            name: Jammed?
 
       - type: horizontal-stack
         cards:
+        
+        - type: custom:button-card
+          entity: button.garagedoor_pulse
+          name: Öppna/Stäng
+          template:
+          - base
+          show_state: true
+          tap_action:
+            action: call-service
+            service: button.press
+            service_data:
+              entity_id: button.garagedoor_pulse
+          state_display: "Manuel Styrning"
+            
+        - type: custom:button-card
+          entity: button.garagedoor_pulse
+          name: Halvöppna
+          template:
+          - base
+          show_state: true
+          tap_action:
+            action: call-service
+            service: button.press
+            service_data:
+              entity_id: button.garagedoor_half_open
+          state_display: "Öppna 50%"
+          visibility:
+            - condition: state
+              entity: binary_sensor.garagedoor_close_sensor
+              state: "on"
+              
+        - type: custom:button-card
+          entity: button.garagedoor_pulse
+          name: Halvöppna
+          template:
+          - blank
+          visibility:
+            - condition: state
+              entity: binary_sensor.garagedoor_close_sensor
+              state: "off"
+
         - type: custom:button-card
           entity: switch.garagedoor_virtual_lock
           icon: mdi:lock
@@ -41,22 +81,22 @@ sections:
                   return `<ha-icon icon="mdi:toggle-switch-off-outline" style="color: var(--disabled-color)"></ha-icon>`
               ]]]  
               
+              
         - type: custom:button-card
-          entity: binary_sensor.garagedoor_is_jammed
-          name: Status
+          entity: switch.garagedoor_open_reminder
+          icon: mdi:lock
+          name: Påminnelser
           template:
           - base
-          state_display: >
-      
-            [[[
-              if (entity.state == 'on')
-                return "Problem"
-              else 
-                return "OK"
-            ]]] 
-        - type: custom:button-card
-          template:
-          - blank
-        - type: custom:button-card
-          template:
-          - blank
+          tap_action:
+            action: toggle
+          custom_fields:
+            secondary: >
+              [[[
+                if (entity.state == 'on')
+                  return `<ha-icon icon="mdi:toggle-switch" style="color: var(--success-color)"></ha-icon>`
+                else 
+                  return `<ha-icon icon="mdi:toggle-switch-off-outline" style="color: var(--disabled-color)"></ha-icon>`
+              ]]]  
+              
+        

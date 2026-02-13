@@ -17,15 +17,7 @@ template: !include templates.yaml
 rest_command: !include rest_commands.yaml
 input_number: !include input_numbers.yaml
 input_boolean: !include input_booleans.yaml
-switch: !include switches.yaml
-
-#binary_sensor:
-#  - platform: rest
-#    resource: "http://garo.amimof.com:8080/servlet/rest/chargebox/meterinfo/EXTERNAL"
-#    name: Garo GLB Loadbalancer Status
-#    unique_id: garo_glb_lb_status
-#    value_template: >-
-#      {{ value_json.success }}
+#switch: !include switches.yaml
 
 mqtt:
   sensor:
@@ -37,66 +29,34 @@ mqtt:
 # Expose sensor data as prometheus metrics
 prometheus:
 
-### Rest commands for turning on and off / making charging available and setting chargelimit.
-#rest_command:
-#  chargebox_chargelimit:
-#    url: "http://garo.amimof.com:8080/servlet/rest/chargebox/currentlimit"
-#    method: post
-#    content_type: "application/json"
-#    payload: '{"reducedIntervalsEnabled": "{{ enabled }}","reducedCurrentIntervals": [{"chargeLimit": "{{ chargelimit }}"}]}'
-
-#  chargebox_off:
-#    url: "http://garo.amimof.com:8080/servlet/rest/chargebox/mode/ALWAYS_OFF"
-#    method: post
-
-#  chargebox_on:
-#    url: "http://garo.amimof.com:8080/servlet/rest/chargebox/mode/ALWAYS_ON"
-#    method: post
-
-#  chargebox_schema:
-#   url: "http://garo.amimof.com:8080/servlet/rest/chargebox/mode/SCHEMA"
-#   method: post
-
-#input_boolean:
-#  chargebox_toggle:
-#    name: "Laddbox Av/På"
-#    icon: mdi:power-settings
-
-#input_number:
-#  chargebox_amperage_limit:
-#    name: "Amperage Limit"
-#    initial: 16
-#    min: 0
-#    max: 16
-#    step: 1
-frontend:
-  themes: !include hass-config/theme.yaml
+#frontend:
+#  themes: !include hass-config/theme.yaml
   
-lovelace:
-  mode: yaml
-  dashboards:
-    home-dashboard:
-      mode: yaml
-      title: Home
-      icon: mdi:home
-      show_in_sidebar: true
-      filename: hass-config/dashboard.yaml
-  resources:
-    - url: /hacsfiles/button-card/button-card.js
-      type: module
-    - url: /hacsfiles/lovelace-layout-card/layout-card.js
-      type: module
-    - url: /hacsfiles/swipe-card/swipe-card.js
-      type: module
-    - url: /hacsfiles/lovelace-card-mod/card-mod.js
-      type: module
-    - url: /hacsfiles/lovelace-more-info-card/more-info-card.js
-      type: module
-    - url: /hacsfiles/lovelace-mushroom/mushroom.js
-      type: module
-    - url: /hacsfiles/Bubble-Card/bubble-card.js
-      type: module
-    - url: /hacsfiles/apexcharts-card/apexcharts-card.js
-      type: module
-    - url: /hacsfiles/config-template-card/config-template-card.js
-      type: module
+#lovelace:
+#  mode: yaml
+#  dashboards:
+#    home-dashboard:
+#      mode: yaml
+#      title: Home
+#      icon: mdi:home
+#      show_in_sidebar: true
+#      filename: hass-config/dashboard.yaml
+#  resources:
+#    - url: /hacsfiles/button-card/button-card.js
+#      type: module
+#    - url: /hacsfiles/lovelace-layout-card/layout-card.js
+#      type: module
+#    - url: /hacsfiles/swipe-card/swipe-card.js
+#      type: module
+#    - url: /hacsfiles/lovelace-card-mod/card-mod.js
+#      type: module
+#    - url: /hacsfiles/lovelace-more-info-card/more-info-card.js
+#      type: module
+#    - url: /hacsfiles/lovelace-mushroom/mushroom.js
+#      type: module
+#    - url: /hacsfiles/Bubble-Card/bubble-card.js
+#      type: module
+#    - url: /hacsfiles/apexcharts-card/apexcharts-card.js
+#      type: module
+#    - url: /hacsfiles/config-template-card/config-template-card.js
+#      type: module

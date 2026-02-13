@@ -216,7 +216,7 @@ views:
           - type: custom:button-card
             icon: mdi:water-percent
             name: Krypgrund
-            entity: sensor.hp_heating_setpoint
+            entity: sensor.raspberry_pi_3_dht22_humidity_percent
             template:
             - base
             tap_action:

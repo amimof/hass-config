@@ -11,22 +11,6 @@ badges:
 sections:
   - type: grid
     column_span: 1
-    title: Automationer
-    cards:
-
-    - type: custom:mushroom-number-card
-      entity: input_number.high_energy_price_threshold
-      layout_options:
-        grid_columns: 3
-        grid_rows: 2
-      fill_container: false
-      name: Golvvärme auto-av vid
-      icon: mdi:flash-auto
-      display_mode: buttons
-
-
-  - type: grid
-    column_span: 1
     title: Spotpriser
     cards:
     - type: custom:apexcharts-card

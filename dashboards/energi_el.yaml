@@ -19,7 +19,7 @@ sections:
         title: Ström
         colorize_states: true
       all_series_config:
-        type: column
+        type: area
         curve: smooth
         stroke_width: 1
         group_by:
@@ -62,7 +62,7 @@ sections:
         title: Effekt
         colorize_states: true
       all_series_config:
-        type: column
+        type: area
         curve: smooth
         stroke_width: 1
         group_by:
@@ -91,46 +91,8 @@ sections:
           followCursor: true
           x:
             show: true
-    - type: custom:apexcharts-card
-      graph_span: 1d
-      stacked: true
-      span:
-        end: hour
-      header:
-        show: true
-        title: Spänning
-        colorize_states: true
-      all_series_config:
-        type: column
-        curve: smooth
-        stroke_width: 1
-        group_by:
-          func: avg
-          duration: 1h 
-      series:
-        - entity: sensor.p1_meter_voltage_phase_1
-          name: Fas 1
-        - entity: sensor.p1_meter_voltage_phase_2
-          name: Fas 2
-        - entity: sensor.p1_meter_voltage_phase_3
-          name: Fas 3
-      apex_config:
-        apex_config:
-          forceNiceScale: true
-        xaxis:
-          type: datetime
-          max: 'js:Date.now()' 
-          tooltip:
-            enabled: false
-          crosshairs:
-            show: true
-        chart:
-          height: 250px
-        tooltip:
-          followCursor: true
-          x:
-            show: true
-        
+      
+      
   - type: grid
     title: Mätare
     column_span: 1
